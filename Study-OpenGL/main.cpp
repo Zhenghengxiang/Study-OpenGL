@@ -9,32 +9,7 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"layout (location = 1) in vec3 aColor; \n"
-"\n"
-"uniform float x;\n"
-"uniform float y;\n"
 
-"out vec3 ourColor; \n"
-"\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x+x ,- aPos.y+y, aPos.z, 1.0);\n"
-"   ourColor=aColor;\n"
-"}\0";
-
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"\n"
-"in vec3 ourColor;\n"
-"\n"
-"uniform vec4 ourColor1;\n"
-"void main()\n"
-"{\n"
-""
-    "FragColor = ourColor1+vec4(ourColor,1.0);\n"
-"}\0";
 int main()
 {
     
@@ -74,7 +49,6 @@ int main()
     //------------------
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
     // check for shader compile errors
     int success;
@@ -89,7 +63,6 @@ int main()
     //-----------
     unsigned int fragmentShader= glCreateShader(GL_FRAGMENT_SHADER);
 
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
     // check for shader compile errors
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -147,6 +120,7 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // render loop
     // -----------
+    Shader ourshader{ "shaders/shader.vs","shaders/shader.fs" };
     while (!glfwWindowShouldClose(window))
     {
         // input
@@ -155,21 +129,22 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         // 记得激活着色器
-        glUseProgram(shaderProgram);
+        ourshader.use();
 
         // 更新uniform颜色
         float timeValue = glfwGetTime();
         float greenValue = sin(timeValue) / 2.0f + 0.5f;
         float xmove = sin(timeValue) * 0.5f;
         float ymove = cos(timeValue) * 0.5f;
-        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor1");
-        int vertexLocationx = glGetUniformLocation(shaderProgram, "x");
-        int vertexLocationy = glGetUniformLocation(shaderProgram, "y");
 
-        glUniform1f(vertexLocationx, xmove);
-        glUniform1f(vertexLocationy, ymove);
 
-        glUniform4f(vertexColorLocation, timeValue, greenValue, greenValue, 1.0f);
+        ourshader.setFloat("x", xmove);
+        ourshader.setFloat("y", ymove);
+        ourshader.setFloat("ourColor1.x", greenValue);
+        ourshader.setFloat("ourColor1.y", greenValue);
+        ourshader.setFloat("ourColor1.z", greenValue);
+        ourshader.setFloat("ourColor1.w", 1.0f);
+
         //画三角形
         // 绘制物体
         glBindVertexArray(VAO);
