@@ -8,5 +8,5 @@ just study
 
 2023.11.20
 
-对前面的学习总结理解了一下，周末加上前几天，一直在搞bot，就没有学习新的，今天目前看了<Strong><a href="[bonus_gimbal_lock.pdf (krasjet.github.io)](https://krasjet.github.io/quaternion/bonus_gimbal_lock.pdf)">Gimbal Lock</a></strong>,大概了解相关的内容，上面是相关的内容，
+对前面的学习总结理解了一下，周末加上前几天，一直在搞bot，就没有学习新的，今天目前看了<Strong><a href="https://krasjet.github.io/quaternion/bonus_gimbal_lock.pdf">Gimbal Lock</a></strong>,大概了解相关的内容，上面是相关的内容，
 
