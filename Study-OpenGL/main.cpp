@@ -79,7 +79,7 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader lightingShader("shaders/2.1.basic_lighting.vs", "shaders/2.1.basic_lighting.fs");
+    Shader lightingShader("shaders/2.3.cube.vs", "shaders/2.3.cube.fs");
     Shader lightCubeShader("shaders/2.1.light_cube.vs", "shaders/2.1.light_cube.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -184,7 +184,14 @@ int main()
         lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
         lightingShader.setVec3("lightPos", lightPos);
         lightingShader.setVec3("viewPos", camera.Position);
+        lightingShader.setVec3("material.ambient", 0.25f, 0.20725f, 0.20725f);
+        lightingShader.setVec3("material.diffuse", 1.0f, 0.829f, 0.829f);
+        lightingShader.setVec3("material.specular", 0.296648f, 0.296648f, 0.296648f);
+        lightingShader.setFloat("material.shininess", 32.0f);
 
+        lightingShader.setVec3("light.ambient", 1.0f, 1.0f, 1.0f);
+        lightingShader.setVec3("light.diffuse", 1.0f, 1.0f, 1.0f); // 将光照调暗了一些以搭配场景
+        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
